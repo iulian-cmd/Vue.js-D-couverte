@@ -1,22 +1,14 @@
 <template>
   <div class="hello">
-    <h1>Une seule ville:</h1>
+    <h1>La météo des villes:</h1>
     <City
-      v-bind:ville="name[0]"
-      v-bind:weather="weather[2]"
-      v-bind:temperature="temperature"
-      v-bind:date="timeFormat"
-    >
-    </City>
-
-    <h1>Une liste des villes:</h1>
-    <ul id="liste_weather">
-      <li v-for="city in cities" v-bind:key="city.id">
-        {{ city.name }} ->
-        {{ city.weather }}
-        {{ city.temperature }} °C
-      </li>
-    </ul>
+      v-for="item in cities"
+      :key="item.id"
+      :name="item.name"
+      :weather="item.weather"
+      :temperature="item.temperature"
+      :timeFormat="item.updatedAt.toLocaleString()"
+    />
   </div>
 </template>
 
@@ -28,10 +20,6 @@ export default {
   name: "CitiesList",
   data() {
     return {
-      name: ["Chambery", "Paris", "Annecy"],
-      weather: ["ciel nuageux", "ensoleillé", "vraiment sec"],
-      temperature: 22.5,
-      date: new Date(),
       cities: [
         {
           id: 1,
