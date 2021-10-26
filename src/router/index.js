@@ -1,14 +1,28 @@
 import {
-    createRouter
+    createRouter,
+    createWebHistory
 } from "vue-router";
-import {
-    CitiesList
-} from "../CitiesList";
+import
+CitiesList
+from "../components/CitiesList";
+import
+Home
+from "../components/Home";
 
 const router = createRouter({
-    path: "/CitiesList",
-    name: "CitiesList",
-    component: CitiesList
+    routes: [{
+            path: "/cities",
+            component: CitiesList
+        },
+        {
+            path: "/",
+            component: Home
+        },
+
+
+    ],
+
+    history: createWebHistory()
 })
 
 export default router

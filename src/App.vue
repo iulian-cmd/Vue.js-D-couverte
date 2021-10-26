@@ -1,5 +1,9 @@
 <template>
-  <div><CitiesList msg="Welcome to Your Vue.js App" /></div>
+  <div>
+    <router-link to="/">Page Accueil</router-link><br />
+    <router-link to="/cities">CitiesList</router-link>
+    <router-view />
+  </div>
 </template>
 
 <script>
