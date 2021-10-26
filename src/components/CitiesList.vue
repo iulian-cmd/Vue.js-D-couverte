@@ -1,6 +1,6 @@
 <template>
   <h1>The weather of the cities:</h1>
-  <div class="main">
+  <div class="container">
     <City
       v-for="item in cities"
       :key="item.id"
@@ -33,7 +33,7 @@ export default {
       )
       .then((response) => {
         this.cities = response.data.list;
-        console.log(response);
+        // console.log(response);
       });
   },
   components: {
@@ -50,6 +50,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1 {
+  text-align: center;
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -65,13 +68,12 @@ a {
   color: #42b983;
 }
 
-.main {
+.container {
   font-family: "Courier New", Courier, monospace;
-  font-size: 1.2em;
   font-style: italic;
   font-weight: bold;
   display: flex;
   justify-content: space-evenly;
-  flex-flow:wrap;
+  flex-flow: wrap;
 }
 </style>
