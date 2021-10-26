@@ -1,18 +1,17 @@
 <template>
-  <div class="hello">
+  <div class="weather">
     <p>
-      Pour la <span id="redcolor">{{ name }}</span>
+      <span id="redcolor">{{ name }}</span>
     </p>
     <p>
-      Le temps est <span id="redcolor">{{ weather }}</span>
+      Weather:<span id="redcolor">{{ weather }}</span>
     </p>
     <p>
-      La temperature est <span id="redcolor">{{ temperature }}</span> °C.
+      Temperature:<span id="redcolor">{{ temperature }}</span> °C.
     </p>
     <p>
-      Pour la date de <span id="redcolor">{{ timeFormat }}.</span>
+      Updated at:<span id="redcolor">{{ timeFormat }}.</span>
     </p>
-    <span id="line">°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°</span>
   </div>
 </template>
 
@@ -25,17 +24,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.hello {
+body{
+  display: flex;
+  justify-content: space-between;
+
+}
+.weather {
+  width: 300px;
+  background: #fffce2;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
   font-weight: bold;
   color: blueviolet;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px 10px rgb(141, 139, 116);
+  margin: 20px;
 }
-body {
-  background-color: bisque;
-}
+
 ul {
   list-style-type: none;
 }
@@ -54,7 +62,6 @@ p {
   padding: 0 15px 5px 5px;
   border-right-width: 12px;
   border-color: rgb(60, 108, 148);
-  background: #fffce2;
 }
 #line {
   font-family: "Courier New", Courier, monospace;

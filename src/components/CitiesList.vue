@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>La météo des villes:</h1>
+    <h1>The weather of the cities:</h1>
     <City
       v-for="item in cities"
       :key="item.id"

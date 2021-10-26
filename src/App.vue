@@ -1,7 +1,14 @@
 <template>
-  <div>
-    <router-link to="/">Page Accueil</router-link><br />
-    <router-link to="/cities">CitiesList</router-link>
+  <nav>
+    <p><img src="./assets/weather.png" width="100" /></p>
+    <ul>
+      <li><router-link to="/">Weather Home</router-link><br /></li>
+      <li>
+        <router-link to="/cities">Cities</router-link>
+      </li>
+    </ul>
+  </nav>
+  <div id="appVue">
     <router-view />
   </div>
 </template>
