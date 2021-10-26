@@ -1,16 +1,23 @@
 <template>
   <div class="weather">
     <p>
-      <span id="redcolor">{{ name }}</span>
+      Town: <span id="title">{{ name }}</span>
     </p>
     <p>
-      Weather:<span id="redcolor">{{ weather }}</span>
+      Weather: <span id="redcolor">{{ weather }}</span>
     </p>
     <p>
-      Temperature:<span id="redcolor">{{ temperature }}</span> °C.
+      Temperature: <span id="redcolor">{{ temperature }}</span> °C.
     </p>
     <p>
-      Updated at:<span id="redcolor">{{ timeFormat }}.</span>
+      Pressure: <span id="redcolor">{{ pressure }}</span>
+    </p>
+    <p>
+      Humidity: <span id="redcolor">{{ humidity }}</span>
+      %.
+    </p>
+    <p>
+      Wind Speed: <span id="redcolor">{{ wind }}</span> m/s.
     </p>
   </div>
 </template>
@@ -18,37 +25,36 @@
 <script>
 export default {
   name: "City",
-  props: ["name", "weather", "temperature", "timeFormat"],
+  props: ["name", "weather", "temperature", "wind", "humidity", "pressure"],
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-body{
+body {
   display: flex;
   justify-content: space-between;
-
 }
 .weather {
-  width: 300px;
+  width: 320px;
   background: #fffce2;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
   font-weight: bold;
-  color: blueviolet;
+  color: rgb(60, 108, 148);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 2px 2px 10px rgb(141, 139, 116);
-  margin: 20px;
+  margin: 10px 10px 10px 0px;
 }
 
 ul {
   list-style-type: none;
 }
 li {
-  display: inline-block;
+  display: -ms-inline-flexbox;
 }
 a {
   color: #42b983;
@@ -56,12 +62,15 @@ a {
 
 p {
   font-family: "Courier New", Courier, monospace;
-  font-size: 1.2em;
+  font-size: 1.1em;
   border-style: dashed;
   border-width: 2px;
-  padding: 0 15px 5px 5px;
+  padding: 0 10px 0px 5px;
   border-right-width: 12px;
   border-color: rgb(60, 108, 148);
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+  width: 90%;
 }
 #line {
   font-family: "Courier New", Courier, monospace;
@@ -69,6 +78,11 @@ p {
 }
 
 #redcolor {
+  color: red;
+}
+
+#title {
+  text-transform: uppercase;
   color: red;
 }
 </style>

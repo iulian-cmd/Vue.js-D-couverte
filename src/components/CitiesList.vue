@@ -1,13 +1,15 @@
 <template>
-  <div class="hello">
-    <h1>The weather of the cities:</h1>
+  <h1>The weather of the cities:</h1>
+  <div class="main">
     <City
       v-for="item in cities"
       :key="item.id"
       :name="item.name"
-      :weather="item.weather"
-      :temperature="item.temperature"
-      :timeFormat="item.updatedAt.toLocaleString()"
+      :weather="item.weather[0].description"
+      :temperature="item.main.temp"
+      :humidity="item.main.humidity"
+      :pressure="item.main.pressure"
+      :wind="item.wind.speed"
     />
   </div>
 </template>
@@ -15,42 +17,24 @@
 <script>
 import City from "./City.vue";
 import { format } from "timeago.js";
+import axios from "axios";
 
 export default {
-  name: "CitiesList",
+  name: "MeteoApi",
   data() {
     return {
-      cities: [
-        {
-          id: 1,
-          name: "Ville 1",
-          weather: "Ensoleillé",
-          temperature: 22.0,
-          updatedAt: new Date(),
-        },
-        {
-          id: 2,
-          name: "Ville 2",
-          weather: "Peu nuageux",
-          temperature: 19.5,
-          updatedAt: new Date(),
-        },
-        {
-          id: 3,
-          name: "Ville 3",
-          weather: "Toride",
-          temperature: 29.0,
-          updatedAt: new Date(),
-        },
-        {
-          id: 4,
-          name: "Ville 4",
-          weather: "Pluie",
-          temperature: 10.5,
-          updatedAt: new Date(),
-        },
-      ],
+      cities: [],
     };
+  },
+  mounted() {
+    axios
+      .get(
+        "https://api.openweathermap.org/data/2.5/find?lat=45.188&lon=5.724&cnt=20&cluster=yes&lang=fr&units=metric&APPID=144368ae5ab81649b4a9760716fde5a1"
+      )
+      .then((response) => {
+        this.cities = response.data.list;
+        console.log(response);
+      });
   },
   components: {
     City,
@@ -81,15 +65,13 @@ a {
   color: #42b983;
 }
 
-#liste_weather {
+.main {
   font-family: "Courier New", Courier, monospace;
   font-size: 1.2em;
   font-style: italic;
   font-weight: bold;
-  border-style: dashed;
-  border-width: 3px;
-  border-left-width: 15px;
-  border-right-width: 15px;
-  border-color: rgb(20, 158, 250);
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow:wrap;
 }
 </style>
