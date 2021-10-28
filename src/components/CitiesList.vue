@@ -16,6 +16,12 @@
         :wind="item.wind.speed"
       />
     </div>
+    <div id="map" class="container">
+      Map
+      <div class="col-md-9">
+        <div id="mapid"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,10 +29,42 @@
 import City from "./City.vue";
 import { format } from "timeago.js";
 import axios from "axios";
-// import { data } from "./data.js";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { onMounted } from "vue";
 
 export default {
   name: "MeteoApi",
+  setup() {
+    onMounted(() => {
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZmx5c3RlZWwiLCJhIjoiY2t2YWhkZjByMmJ6ZDJybHVvcGk5dGVkNiJ9.av_gL3YCSSYoJ-_fx1yYJw";
+      const map = new mapboxgl.Map({
+        container: "map", // container id
+        style: "mapbox://styles/mapbox/light-v9", //style location
+        center: [-74.5, 40], // starting position [lng, lat]
+        zoom: 9, // starting zoom
+      });
+      map.on("load", () => {
+        // TODO: Here we want to load a layer
+        map.addSource("usa", {
+          type: "geojson",
+          data: "https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA.geo.json",
+        });
+        map.addLayer({
+          id: "usa-fill",
+          type: "fill",
+          source: "usa",
+          paint: {
+            "fill-color": "red",
+          },
+        });
+        // TODO: Here we want to load/setup the popup
+      });
+    });
+    return {};
+  },
+
   data() {
     return {
       cities: [], // au début la liste des villes est vide
@@ -52,7 +90,6 @@ export default {
       })
       .catch((e) => (this.error = e))
       .finally(() => (this.loading = false));
-    // this.cities = data; // data codé en dur
   },
   components: {
     City,
@@ -96,5 +133,8 @@ a {
 }
 #redcolor {
   color: red;
+}
+#map {
+  height: 100vh;
 }
 </style>
