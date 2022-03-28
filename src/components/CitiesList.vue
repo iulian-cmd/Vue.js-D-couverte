@@ -1,26 +1,43 @@
 <template>
-  <div>
-    <h1>The weather of the cities:</h1>
-    <p v-if="loading">Page is loading</p>
-    <p id="redcolor" v-if="error != null">There is an error on the page</p>
-
+  <div class="bg-dark pt-5">
     <div class="container">
-      <City
-        v-for="item in cities"
-        :key="item.id"
-        :name="item.name"
-        :weather="item.weather[0].description"
-        :temperature="item.main.temp"
-        :humidity="item.main.humidity"
-        :pressure="item.main.pressure"
-        :wind="item.wind.speed"
-      />
-    </div>
-    <div id="map" class="container">
-      Map
-      <div class="col-md-9">
-        <div id="mapid"></div>
+      <div class="text-light">
+        <h1>The weather of the cities:</h1>
+        <br />
+        <p v-if="loading">Page is loading</p>
+        <!-- <p id="" v-if="yellow" error != "null">There is an error on the page</p> -->
       </div>
+      <div>
+        <div class="align-content-end">
+          <form class="d-flex">
+            <input
+              id="search"
+              class="form-control me-2 bg-dark text-light"
+              v-model="searchQuery"
+              placeholder="Fast Search..."
+            />
+          </form>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between flex-wrap flex-row m-1 p-1">
+        <City
+          v-for="item in cities"
+          :key="item.id"
+          :name="item.name"
+          :weather="item.weather[0].description"
+          :icon="item.weather[0].icon"
+          :temperature="item.main.temp"
+          :humidity="item.main.humidity"
+          :pressure="item.main.pressure"
+          :wind="item.wind.speed"
+          :latitude="item.coord.lat"
+          :longitude="item.coord.lon"
+        />
+      </div>
+      console.log(data.coord.lat);
+    </div>
+    <div id="map">
+      <Map />
     </div>
   </div>
 </template>
@@ -29,42 +46,17 @@
 import City from "./City.vue";
 import { format } from "timeago.js";
 import axios from "axios";
-import mapboxgl from "mapbox-gl";
+// import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { onMounted } from "vue";
+// import { onMounted } from "vue";
+import Map from "./Map.vue";
+import "leaflet/dist/leaflet.css";
 
 export default {
-  name: "MeteoApi",
-  setup() {
-    onMounted(() => {
-      mapboxgl.accessToken =
-        "pk.eyJ1IjoiZmx5c3RlZWwiLCJhIjoiY2t2YWhkZjByMmJ6ZDJybHVvcGk5dGVkNiJ9.av_gL3YCSSYoJ-_fx1yYJw";
-      const map = new mapboxgl.Map({
-        container: "map", // container id
-        style: "mapbox://styles/mapbox/light-v9", //style location
-        center: [-74.5, 40], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-      });
-      map.on("load", () => {
-        // TODO: Here we want to load a layer
-        map.addSource("usa", {
-          type: "geojson",
-          data: "https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA.geo.json",
-        });
-        map.addLayer({
-          id: "usa-fill",
-          type: "fill",
-          source: "usa",
-          paint: {
-            "fill-color": "red",
-          },
-        });
-        // TODO: Here we want to load/setup the popup
-      });
-    });
-    return {};
+  components: {
+    City,
+    Map,
   },
-
   data() {
     return {
       cities: [], // au début la liste des villes est vide
@@ -76,13 +68,14 @@ export default {
     // `this` points to the vm instance
     console.log("Page is loading: " + this.loading);
     console.log("There is an error: " + this.error);
+    //do we support geolocation
   },
   mounted() {
     this.loading = true;
     // la methode axios est appeléé automatiquement
     axios
       .get(
-        "https://api.openweathermap.org/data/2.5/find?lat=45.59542754804813&lon=5.8724161776578105&cnt=20&cluster=yes&lang=fr&units=metric&appid=9767ef07402664fcd10f16702c6da167"
+        "https://api.openweathermap.org/data/2.5/find?lat=45.5662672&lon=5.9203636&cnt=30&cluster=yes&lang=fr&units=metric&appid=9767ef07402664fcd10f16702c6da167"
       )
       .then((response) => {
         this.cities = response.data.list; // les infos de la liste de données sont rec et inserées dans notre liste vide
@@ -90,9 +83,6 @@ export default {
       })
       .catch((e) => (this.error = e))
       .finally(() => (this.loading = false));
-  },
-  components: {
-    City,
   },
   computed: {
     // a computed getter
@@ -107,6 +97,7 @@ export default {
 <style scoped>
 h1 {
   text-align: center;
+  padding: 5px 20px 10px 20px;
 }
 h3 {
   margin: 40px 0 0;
@@ -131,10 +122,22 @@ a {
   justify-content: space-evenly;
   flex-flow: wrap;
 }
-#redcolor {
-  color: red;
+#yellow {
+  color: #ffa502;
 }
+
+#search {
+  width: 50vh;
+  height: auto;
+  padding: 5px 20px 10px 20px;
+  margin: 10px;
+}
+
 #map {
-  height: 100vh;
+  width: 100%;
+  height: 500px;
+  color: azure;
+  border: 2px solid white;
+  margin-bottom: 20px;
 }
 </style>

@@ -1,24 +1,35 @@
-<template>
+<template class="bg-dark">
+
   <div class="row justify-content-md-center">
     <div class="weather">
       <p>
         <span id="title">{{ name }}</span>
       </p>
       <p>
-        Weather: <span id="redcolor">{{ weather }}</span>
+        Weather: <span id="yellow">{{ weather }}</span>
+      </p>
+      
+      <img src="http://openweathermap.org/img/wn/{{ icon }}@2x.png" />
+     
+      <p>
+        Temperature: <span id="yellow">{{ temperature }}</span> °C.
       </p>
       <p>
-        Temperature: <span id="redcolor">{{ temperature }}</span> °C.
+        Pressure: <span id="yellow">{{ pressure }}</span>
       </p>
       <p>
-        Pressure: <span id="redcolor">{{ pressure }}</span>
-      </p>
-      <p>
-        Humidity: <span id="redcolor">{{ humidity }}</span>
+        Humidity: <span id="yellow">{{ humidity }}</span>
         %.
       </p>
       <p>
-        Wind Speed: <span id="redcolor">{{ wind }}</span> m/s.
+        Wind Speed: <span id="yellow">{{ wind }}</span> m/s.
+      </p>
+
+      <p>
+        Latitude: <span id="yellow">{{ latitude }}</span>
+      </p>
+      <p>
+        Longitude: <span id="yellow">{{ longitude }}</span>
       </p>
     </div>
   </div>
@@ -26,29 +37,58 @@
 
 <script>
 export default {
-  name: "City",
-  props: ["name", "weather", "temperature", "pressure", "humidity", "wind"],
+  props: [
+    "name",
+    "weather",
+    "icon",
+    "temperature",
+    "pressure",
+    "humidity",
+    "wind",
+    "latitude",
+    "longitude",
+  ],
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-body {
-  display: flex;
-  justify-content: space-between;
-}
 .weather {
-  width: 300px;
+  width: 400px;
+  height: auto;
   color: whitesmoke;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
   font-weight: bold;
-  color: rgb(60, 108, 148);
   padding: 5px 15px 15px 15px;
-  box-shadow: 2px 2px 10px rgb(86, 105, 129);
   margin: 15px 15px 15px 5px;
+  border-radius: 10px;
+  border: azure solid 2px;
+}
+
+.weather:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #d35400;
+  transition: 0.5s;
+  transform: scale(0.9);
+  z-index: -1;
+}
+
+.weather:hover:before {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px #d35400;
+  filter: blur(3px);
+}
+
+.weather:hover {
+  color: #ffa502;
+  box-shadow: 0 0 15px #d35400;
+  text-shadow: 0 0 15px #d35400;
 }
 
 ul {
@@ -64,11 +104,8 @@ a {
 p {
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
-  border-style: dashed;
   border-width: 1px;
   padding: 0 10px 0px 5px;
-  border-right-width: 12px;
-  border-color: rgb(60, 108, 148);
   margin-block-start: 0.1em;
   margin-block-end: 0.1em;
   width: 90%;
@@ -78,15 +115,19 @@ p {
   font-size: 1em;
 }
 
-#redcolor {
-  color: red;
+#yellow {
+  color: rgb(238, 241, 7);
 }
 
 #title {
   text-transform: uppercase;
-  color: red;
+  color: rgb(238, 241, 7);
   font-size: 1.3em;
   text-align: center;
 }
-</style>
 
+img{
+  width: 120px;
+  height: 120px;
+}
+</style>
